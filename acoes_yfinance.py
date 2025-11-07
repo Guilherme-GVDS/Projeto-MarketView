@@ -1,18 +1,26 @@
 import yfinance as yf
-import pandas as pd
 
-tickers = ['PETR4.SA', 'ITUB4.SA', 'VALE3.SA', 'BPAC11.SA', 'ABEV3.SA',
-           'BBDC3.SA', 'WEGE3.SA', 'ELET3.SA', 'AXIA3.SA', 'ITSA4.SA']
-dados = []
 
-for ticker in tickers:
-    tk = yf.Ticker(ticker)
-    info = tk.info
-    nome = (info.get("shortName", None)).split()
-    nome = nome[0]
-    ultimo_preco = str(info.get("regularMarketPrice", None))
-    ultimo_preco = ('R$ '+ultimo_preco)
+class Acao_yf:
+    def __init__(self,):
+        #self.lista_acoes = lista_acoes
+        self.buscar_info()
 
-    print (f'{nome} de ticker {ticker[:-3]} e ultima cotação {ultimo_preco}')
-    
 
+    def buscar_info(self):
+        lista_acoes = [{'Empresa': 'Petrobrás', 'Ticker': 'PETR4'}, {'Empresa': 'Banco Itaú', 'Ticker': 'ITUB4'}, {'Empresa': 'Vale', 'Ticker': 'VALE3'}, {'Empresa': 'Banco Btg Pactual', 'Ticker': 'BPAC11'}, {'Empresa': 'Ambev', 'Ticker': 'ABEV3'}, {'Empresa': 'Weg', 'Ticker': 'WEGE3'}, {'Empresa': 'Banco Bradesco', 'Ticker': 'BBDC3'}, {'Empresa': 'Eletrobras', 'Ticker': 'ELET3'}, {'Empresa': 'Axia Energia', 'Ticker': 'AXIA3'}, {'Empresa': 'Banco Do Brasil', 'Ticker': 'BBAS3'}]
+        lista_cotacao_acoes = []
+        for acao in lista_acoes:
+            ticker_sa = acao['Ticker']+'.SA'
+            
+            tk = yf.Ticker(ticker_sa)
+            info = tk.info
+            nome = acao['Empresa']
+            ticker = acao['Ticker']
+            ultimo_preco = str(info.get("regularMarketPrice", None))
+            ultimo_preco = ('R$ '+ultimo_preco)
+            dic_empresa ={f'Empresa':nome, 'Ticker': ticker, 'Cotação': ultimo_preco}
+            lista_cotacao_acoes.append(dic_empresa)
+        print (lista_cotacao_acoes)
+        
+Acao_yf()

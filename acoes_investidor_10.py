@@ -28,7 +28,7 @@ class Acao_selenium:
                 ticker = acao.find_element(By.CLASS_NAME, "font-semibold").text
                 empresa = acao.find_element(By.CSS_SELECTOR,'span.group-hover\\:font-semibold').text
 
-                dic_empresa ={f'Empresa':{empresa}, 'Ticker': {ticker}}
+                dic_empresa ={f'Empresa':empresa, 'Ticker': ticker}
                 lista_acoes.append(dic_empresa)
                 #Quando o nome da classe contém caracteres especiais como : é preciso usar \\
 
@@ -37,12 +37,12 @@ class Acao_selenium:
                 logo_file = requests.get(logo, headers=header).content        
                 with open(f"imagens/{ticker}.jpg", "wb") as f:
                     f.write(logo_file)
-                print(f"{empresa} {ticker}")
+                print(f'{empresa}  {ticker}')
                 cont+=1
 
             else:
                 break
-        print(lista_acoes[0]['Empresa'])
+        print(lista_acoes)
 
         pasta_imagens = Path('imagens')
         for arquivo in pasta_imagens.glob('*.jpg'):
@@ -50,3 +50,6 @@ class Acao_selenium:
 
 
         self.nav.quit()
+
+nav = webdriver.Chrome()
+Acao_selenium(nav)
