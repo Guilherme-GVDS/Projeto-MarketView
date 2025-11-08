@@ -1,10 +1,7 @@
-from acoes_investidor_10 import Acao_selenium
-import customtkinter
-from selenium import webdriver
+from tab_cotacoes import Interface_ativos
 
 if __name__ == '__main__':
-    login = webdriver.Chrome()
-    Acao_selenium(login)
+    Interface_ativos()
 
 
 

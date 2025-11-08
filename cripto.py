@@ -20,7 +20,7 @@ for cripto in criptos:
         logo_file = requests.get(logo).content
         with open(f"imagens/{nome}.png", "wb") as f:
             f.write(logo_file)
-        dic_empresa ={f'Cripto':nome, 'Ticker': simbolo, 'Cotação': preco}
+        dic_empresa ={f'Nome':nome, 'Ticker': simbolo, 'Cotação': preco}
         lista_cotacao_cripto.append(dic_empresa)
         print(lista_cotacao_cripto)
         cont+=1
@@ -28,9 +28,7 @@ for cripto in criptos:
     else:
         break
     
-'''pasta_imagens = Path('imagens')
-for arquivo in pasta_imagens.glob('*.png'):
-    os.remove(arquivo)'''
+
 
 
 navegador.quit()
