@@ -5,7 +5,11 @@ from selenium import webdriver
 
 class Acoes:
     def __init__(self):
-        self.nav = webdriver.Chrome()
+        oculto = webdriver.ChromeOptions()
+        oculto.add_argument('--headless=new')  # usa o novo modo headless
+        oculto.add_argument('--disable-gpu')
+        oculto.add_argument('--window-size=1920,1080')
+        self.nav = webdriver.Chrome(options=oculto)
         self.buscar_info()
         
     

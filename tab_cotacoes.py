@@ -4,10 +4,13 @@ from PIL import Image
 from acoes_investidor_10 import Acoes
 from pathlib import Path
 import os
+from cripto import Cripto
+from selenium import webdriver
 
 class Interface_ativos:
     def __init__(self):
         self.lista_acoes = Acoes().retornar_lista()
+        self.lista_cripto = Cripto().retornar_lista()
         self.janela = ctk.CTk()
         self.interface()
     
@@ -33,19 +36,21 @@ class Interface_ativos:
         self.bg_label.place(x=0,y=0)       
 
         self.criar_frame(self.tab_acoes, self.lista_acoes)
+        self.criar_frame(self.tab_cripto,self.lista_cripto)
         self.janela.protocol("WM_DELETE_WINDOW", self.apagar_img)
         self.janela.mainloop()
 
 
         
     def criar_frame(self,tabview,lista):
+        self.bg_frame_color = '#4682B4'
         self.images_foldes = Path.cwd() /'imagens'
         count = 0
         coluna = 0
         linha = 0
         for ativo in lista:
             frame = ctk.CTkFrame (tabview, width=187, height= 93,
-                                            fg_color="#000022",)
+                                            fg_color=self.bg_frame_color)
             frame.grid_propagate(False)  
             if count >4:
                 linha+=1
@@ -56,7 +61,7 @@ class Interface_ativos:
             coluna +=1
             
             label_nome = ctk.CTkLabel(frame, text= ativo['Nome'], anchor='center',width=60,
-                                      height=20, font=('Calibri',20))
+                                      height=20, font=('Calibri',19))
 
             img_path = self.images_foldes / f"{ativo['Ticker']}.jpg"
 
@@ -67,14 +72,17 @@ class Interface_ativos:
             self.img = ctk.CTkImage(light_image= img_copy, dark_image=img_copy,
                                size=(20,20))
 
-            self.img_label = ctk.CTkLabel (frame, text='', image= self.img)
+            self.img_button = ctk.CTkButton (frame, text='', image= self.img,width=20, 
+                                             height=20, fg_color= self.bg_frame_color,
+                                             bg_color= self.bg_frame_color, 
+                                             command=lambda atv=ativo: self.abrir_nav(atv))
 
             label_ticker = ctk.CTkLabel(frame, text=ativo['Ticker'],font=('Calibri',20))
 
             label_cotacao = ctk.CTkLabel(frame, text=ativo['Cotação'],font=('Calibri',20))
             
             label_nome.place(x=1,y=1,anchor='nw')                        
-            self.img_label.place(x=6,y=33) 
+            self.img_button.place(x=6,y=33) 
             label_ticker.place(x=40,y=33)
             label_cotacao.place(x=1,y=63)
 
@@ -83,6 +91,14 @@ class Interface_ativos:
         for arquivo in pasta_imagens.glob('*.jpg'):
             os.remove(arquivo)   
         self.janela.destroy()
+
+    def abrir_nav(self,ativo):
+          self.nav_ticket = webdriver.Chrome()
+          if ativo in self.lista_acoes:
+              self.nav_ticket.get(f'https://statusinvest.com.br/acoes/{ativo['Ticker']}')
+          else:
+              self.nav_ticket.get(f'https://coinmarketcap.com/currencies/{ativo['Nome']}/')
+              
 
     
 
