@@ -12,28 +12,30 @@ class Interface_ativos:
         self.lista_acoes = Acoes().retornar_lista()
         self.lista_cripto = Cripto().retornar_lista()
         self.janela = ctk.CTk()
+        self.janela.configure(bg_color='#121412')
         self.interface()
     
 
     def interface(self):
         ctk.set_appearance_mode('dark')
         centralizar_janela(self.janela,1024,500)
-        self.janela.title ('Error')
+        self.janela.title ('Tabela de Cotação')
 
         self.tabview = ctk.CTkTabview(self.janela,width=1020, height=495,anchor='nw')
         self.tabview.grid(row=0, column=0, padx=1, pady=1)
+
         
         self.tab_acoes = self.tabview.add ('Ações')
         self.tab_cripto = self.tabview.add ('Criptomoedas')
-
 
         self.bg = ctk.CTkImage(light_image= Image.open(
                                 'bg.jpg'),
                                dark_image=Image.open('bg.jpg'),
                                size=(1024,500))
         self.bg_label = ctk.CTkLabel (self.tab_acoes, text='', image= self.bg)
-
-        self.bg_label.place(x=0,y=0)       
+        self.bg_label.place(x=0,y=0)  
+        self.bg_label = ctk.CTkLabel(self.tab_cripto,text='', image=self.bg)
+        self.bg_label.place(x=0,y=0)  
 
         self.criar_frame(self.tab_acoes, self.lista_acoes)
         self.criar_frame(self.tab_cripto,self.lista_cripto)
@@ -43,14 +45,14 @@ class Interface_ativos:
 
         
     def criar_frame(self,tabview,lista):
-        self.bg_frame_color = '#4682B4'
+        self.bg_frame_color = '#07007D'
         self.images_foldes = Path.cwd() /'imagens'
         count = 0
         coluna = 0
         linha = 0
         for ativo in lista:
             frame = ctk.CTkFrame (tabview, width=187, height= 93,
-                                            fg_color=self.bg_frame_color)
+                                            fg_color=self.bg_frame_color,bg_color=self.bg_frame_color)
             frame.grid_propagate(False)  
             if count >4:
                 linha+=1
@@ -60,8 +62,8 @@ class Interface_ativos:
             count +=1
             coluna +=1
             
-            label_nome = ctk.CTkLabel(frame, text= ativo['Nome'], anchor='center',width=60,
-                                      height=20, font=('Calibri',19))
+            label_nome = ctk.CTkLabel(frame, text= ativo['Nome'], anchor='nw',
+                                      width=80, height=26, font=('Calibri',19))
 
             img_path = self.images_foldes / f"{ativo['Ticker']}.jpg"
 
@@ -70,7 +72,7 @@ class Interface_ativos:
                 img_copy = img_file.copy()
 
             self.img = ctk.CTkImage(light_image= img_copy, dark_image=img_copy,
-                               size=(20,20))
+                               size=(23,23))
 
             self.img_button = ctk.CTkButton (frame, text='', image= self.img,width=20, 
                                              height=20, fg_color= self.bg_frame_color,
@@ -81,10 +83,10 @@ class Interface_ativos:
 
             label_cotacao = ctk.CTkLabel(frame, text=ativo['Cotação'],font=('Calibri',20))
             
-            label_nome.place(x=1,y=1,anchor='nw')                        
-            self.img_button.place(x=6,y=33) 
-            label_ticker.place(x=40,y=33)
-            label_cotacao.place(x=1,y=63)
+            label_nome.place(x=2,y=1,anchor='nw')                        
+            self.img_button.place(x=1,y=30) 
+            label_ticker.place(x=35,y=30)
+            label_cotacao.place(x=2,y=63)
 
     def apagar_img(self):
         pasta_imagens = Path('imagens')
