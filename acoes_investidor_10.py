@@ -14,31 +14,27 @@ class Acoes:
         
     
     def buscar_info(self):
+
         self.nav.get("https://investidor10.com.br/acoes/")
         self.nav.implicitly_wait(10)
         self.lista_acoes = []
-
-
-
-
-        # Seleciona todas as linhas da tabela de moedas
         acoes = self.nav.find_elements(By.CSS_SELECTOR, "table tbody tr")
         cont = 0
+        
         for acao in acoes:
             if cont <20:
+
                 ticker = acao.find_element(By.CLASS_NAME, "font-semibold").text
                 nome = acao.find_element(By.CSS_SELECTOR,'span.group-hover\\:font-semibold').text
-
                 dic_empresa ={f'Nome':nome, 'Ticker': ticker}
                 self.lista_acoes.append(dic_empresa)
-                #Quando o nome da classe contém caracteres especiais como : é preciso usar \\
-
                 logo  = acao.find_element(By.CLASS_NAME, 'ticker-img').get_attribute('src')
                 header = {"User-Agent": "Mozilla/5.0"}
-                logo_file = requests.get(logo, headers=header).content        
+                logo_file = requests.get(logo, headers=header).content     
+
                 with open(f"imagens/{ticker}.jpg", "wb") as f:
                     f.write(logo_file)
-                #print(f'{nome}  {ticker}')
+
                 cont+=1
 
             else:
@@ -57,7 +53,7 @@ class Acoes:
             ultimo_preco = ('R$ '+ultimo_preco)
             dic_empresa ={f'Nome':nome, 'Ticker': ticker, 'Cotação': ultimo_preco}
             self.lista_cotacao_acoes.append(dic_empresa)
-        print(self.lista_cotacao_acoes)
+
 
     def retornar_lista(self):
         return self.lista_cotacao_acoes

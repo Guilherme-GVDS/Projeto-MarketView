@@ -8,7 +8,9 @@ from cripto import Cripto
 from selenium import webdriver
 
 class Interface_ativos:
+
     def __init__(self):
+
         self.lista_acoes = Acoes().retornar_lista()
         self.lista_cripto = Cripto().retornar_lista()
         self.janela = ctk.CTk()
@@ -17,6 +19,7 @@ class Interface_ativos:
     
 
     def interface(self):
+
         ctk.set_appearance_mode('dark')
         centralizar_janela(self.janela,1024,500)
         self.janela.title ('Tabela de Cotação')
@@ -42,7 +45,6 @@ class Interface_ativos:
         self.janela.protocol("WM_DELETE_WINDOW", self.apagar_img)
         self.janela.mainloop()
 
-
         
     def criar_frame(self,tabview,lista):
         self.bg_frame_color = '#07007D'
@@ -67,7 +69,7 @@ class Interface_ativos:
 
             img_path = self.images_foldes / f"{ativo['Ticker']}.jpg"
 
-            # Abre, copia e fecha automaticamente
+
             with Image.open(img_path) as img_file:
                 img_copy = img_file.copy()
 
@@ -85,7 +87,7 @@ class Interface_ativos:
             
             label_nome.place(x=2,y=1,anchor='nw')                        
             self.img_button.place(x=1,y=30) 
-            label_ticker.place(x=35,y=30)
+            label_ticker.place(x=42,y=30)
             label_cotacao.place(x=2,y=63)
 
     def apagar_img(self):
@@ -100,12 +102,3 @@ class Interface_ativos:
               self.nav_ticket.get(f'https://statusinvest.com.br/acoes/{ativo['Ticker']}')
           else:
               self.nav_ticket.get(f'https://coinmarketcap.com/currencies/{ativo['Nome']}/')
-              
-
-    
-
-
-        # Criar um contador para definir a posição dos frames, lembrando que no 6° em diante,
-        # tem que ir para a segunda linha
-
-
