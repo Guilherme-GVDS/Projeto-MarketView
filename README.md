@@ -24,7 +24,7 @@ Criei este projeto por interesse pessoal no mercado financeiro, com o objetivo d
 
 ### Como rodar o projeto
 
-Projeto em desenvolvimento, porém seguindo as propostas, você irá executar o arquivo main.exe, que iniciará o sistema e abrirá uma interface gráfica, lhe mostrando inicialmente as ações e na parte superior você pode alterar para as criptomoedas.
+Inicialmente, deve-se executar o arquivo main.exe, que iniciará o sistema para efetuar uma busca e coletar informações necessárias, em seguida abrirá uma interface gráfica, lhe mostrando inicialmente as ações e na parte superior você pode alterar para as criptomoedas, caso você clique em um icone de um ativo, você será direcionado para um site com mais informações técnicas sobre o ativo.
 
 
 
